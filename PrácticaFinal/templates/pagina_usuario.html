@@ -1,0 +1,105 @@
+{% extends "index.html" %}
+
+
+{% block menu %}
+<ul>
+  <a href="/"><li> Inicio </li></a>
+  <a href="/museos"><li> Todos </li></a>
+  <a href="/about"><li> About </li></a>
+  <a href="/{{user.username}}"><li>Página personal</li></a>
+  <a href="/{{user.username}}/xml"><li>XML usuario</li></a>
+  <a href="/rss"><li>Canal RSS </li></a>
+</ul>
+{% endblock %}
+
+
+{% block contenido %}
+
+
+<div id="normalcontent">
+   <h2>Museos seleccionados:</h2>
+   {% for Escogido in Escogidos|slice:":5" %}
+      <h1><a href="{{ Escogido.museo.content_URL }}">{{Escogido.museo.nombre }}</a></h1>
+      <p>{{ Escogido.museo.clase_via }} {{ Escogido.museo.nombre_via }},
+      {{ Escogido.museo.numero}}</p>
+      <p class="date">
+      <a href="/museos/{{ Escogido.museo.idmuseo }}">Más información</a></p>
+      <p>Seleccionado en: {{ Escogido.fecha}}</p>
+      <br /><br />
+      {% if forloop.counter == 5 and not fin %}
+           <p class="mas"><a href="{{ Escogido.usuario }}?{{Escogido.id }}">
+           Mostrar más museos</a></p>
+      {% endif %}
+   {% endfor %}
+</div>
+
+<div id = "primarycontent">
+   {% if usuario == "" or usuario.titulo == "" %}
+      <h2>"Página de {{ usuario_ }}"</h2>
+   {% else %}
+      <h2>"{{ usuario.titulo }}"</h2>
+   {% endif %}
+   <hr />
+</div>
+
+   {% if usuario_ == user.username %}
+      <div class="box">
+       <h4>Inserta el título que desees para tu página</h4>
+       <form method="POST" action="/cambiar_titulo"> 
+<!--
+		   crear función para cambiar el título!!!!!
+-->
+       {% csrf_token %}
+       <input type="text" name="titulo" /><br/>
+       <input type="submit" value="Cambiar" />
+       </form>
+     </div>
+     <div class="box">
+       <h4>¿Desea cambiar el estilo?</h4>
+<!--
+       Tengo que crear styles.css pero al final
+-->
+       <form action="/templates/styles.css" method="post">
+       {% csrf_token %}
+       <p>Elige el color de fondo que desees para tu página:</p>
+       <select name="color">
+         <option>Por Defecto</option>
+         <option value="red">Rojo</option>
+         <option value="blue">Azul</option>
+         <option value="green">Verde</option>
+         <option value="yellow">Amarillo</option>
+         <option value="pink">Rosa</option>
+         <option value="purple">Morado</option>
+         <option value="black">Negro</option>
+         <option value="silver">Plata</option>
+         <option value="grey">Gris</option>
+         <option value="#48D1CC">Turquesa</option>
+         <option value="#FF5733">Naranja</option>
+         <option value="F76296">Rosa Claro</option>
+         <option value="brown">Marrón</option>
+         <option value="F7C362">Naranja Claro</option>
+         <option value="beige">Beige</option>
+         <option value="#8A2BE2">Violeta</option>
+         <option value="#87CEFA">Cielo</option>
+         <option value="#00FF00">Lima</option>
+       </select>
+       <br/><br/>
+       <p>Elige el tamaño de letra:</p>
+       <select name="letra">
+         <option>Por Defecto</option>
+         <option>0.3em</option>
+         <option>0.5em</option>
+         <option>0.8em</option>
+         <option>1.0em</option>
+         <option>1.5em</option>
+         <option>2.0em</option>
+         <option>2.5em</option>
+         <option>3.0em</option>
+       </select>
+       <br/><br/>
+       <input type="submit" value="Cambiar">
+       </form>
+     </div>
+   {% endif %}
+
+{% endblock %}

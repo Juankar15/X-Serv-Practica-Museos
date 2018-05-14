@@ -4,11 +4,17 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	
+
 </head>
 
 <body>
   <title> Bienvenido a Museos Madrid! </title>
+
+  <div id="upbg"></div>
+
+  <div id="outer">
+
+
   	<div id="header">
   		<div id="headercontent">
   			<h1>MuseosMadrid</h1>
@@ -23,7 +29,9 @@
         <p>Bienvenid@, {{user.username}}!</p>
         <a href="/logout"><input type="button" value="Logout" /></a>
       {% else %}
-
+	    
+        <form method="POST" action="/login">
+        {% csrf_token %}
         Usuario: <input type="username" name="username" /><br/>
         Clave: <input type="password" name="password" /><br/>
         <input type="submit" value="Login" />

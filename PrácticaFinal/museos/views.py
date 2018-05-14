@@ -4,11 +4,16 @@ import xml.etree.ElementTree as ET
 from urllib.request import urlopen
 from django.http import HttpResponse
 from django.template.loader import get_template
+from django.db.models import Count
 from django.template import Context
 from django.template import RequestContext
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
-
-
+from django.utils import timezone
+from django.contrib import auth
+from django.contrib.auth import authenticate,login, logout
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 @csrf_exempt
 def pagina_principal(peticion):
@@ -16,8 +21,6 @@ def pagina_principal(peticion):
     if peticion.method == "POST":
         if "boton" in peticion.POST:
             eleccion = peticion.POST['boton']
-           
-           
         else:
             eleccion = ""
             
@@ -91,6 +94,7 @@ def pagina_principal(peticion):
 
     resp = template.render(context)
     return HttpResponse(resp)
+
 @csrf_exempt
 def pagina_museos(peticion):
     lista_museos = ''
@@ -102,6 +106,24 @@ def pagina_museos(peticion):
                 lista_museos = Museo.objects.all()
             else:
                 lista_museos = Museo.objects.filter(distrito = distrito)
+        else:
+            if "marcar" in peticion.POST:
+                recibido = peticion.POST['marcar']
+                idmuseo = recibido.split(',')[0]
+                nombre_usuario = recibido.split(',')[1]
+                museo = Museo.objects.get(idmuseo = idmuseo)
+                usuario = User.objects.get(username = nombre_usuario)
+                fecha = timezone.now()
+                NueElec = Escogido(museo = museo, usuario = usuario, fecha = fecha)
+                NueElec.save()
+            else:
+                recibido = peticion.POST['desmarcar']
+                idmuseo = recibido.split(',')[0]
+                nombre_usuario = recibido.split(',')[1]
+                museo = Museo.objects.get(idmuseo = idmuseo)
+                usuario = User.objects.get(username = nombre_usuario)
+                BorrarElec = Escogido.objects.get(museo = museo, usuario = usuario)
+                BorrarElec.delete()
 
     if peticion.method == 'GET':
         museos = Museo.objects.all()
@@ -114,10 +136,87 @@ def pagina_museos(peticion):
     # http://stackoverflow.com/questions/10941229/convert-list-of-tuples-to-list
     ListaUnico_distrito = [distrito[0] for distrito in ListaUnico_distrito]
 
+    if peticion.user.is_authenticated():
+        Escogidos = Escogido.objects.all().values_list('museo').filter(usuario = peticion.user)
+        lista_Escogidos = [Escogido[0] for Escogido in Escogidos]
+    else:
+        lista_Escogidos = ""
+
     template = get_template('museos.html')
     context = RequestContext(peticion, {'ListaTodos_distritos': ListaUnico_distrito,
                                         'museos': lista_museos,
                                         'distrito': distrito,
-                                        })
+                                        'Escogidos': lista_Escogidos})
+                                        
     return HttpResponse(template.render(context))
-	
+
+@csrf_exempt
+def login(peticion):
+    if peticion.method =="POST":
+        username = peticion.POST['username']
+        password = peticion.POST['password']
+        user = auth.authenticate(username = username, password = password)
+        if user is not None:
+            auth.login(peticion, user)
+        return HttpResponseRedirect('/')
+    else:
+        template = get_template('error.html')
+        return HttpResponse(template.render(Context({'texto': "Usuario no autenticado"})))
+@csrf_exempt
+def logout(peticion):
+    if peticion.method == "POST":
+        logout(peticion)
+    return HttpResponseRedirect('/')
+        
+def pagina_usuario(peticion, usuario_):
+    if peticion.method == "GET":
+        try:
+            usuario = User.objects.get(username = usuario_)
+        except User.DoesNotExist:
+            template = get_template('error.html')
+            return HttpResponse(template.render(), status=404)
+        # Obtener una query string:
+        # https://docs.djangoproject.com/en/1.8/ref/request-response/#django.http.HttpRequest.META
+        query_string = peticion.META['QUERY_STRING']
+   
+    else:
+        query_string = ""
+        if peticion.user.is_authenticated():
+            usuario = User.objects.get(username = peticion.user.username)
+            try:
+                usuario = Estilo.objects.get(usuario = usuario)
+            except:
+                user = User.objects.get(username = peticion.user.username)
+                usuario = Estilo(usuario = user)
+
+            if 'titulo' in peticion.POST:
+                usuario.titulo = peticion.POST['titulo']
+            else:
+                usuario.letra = peticion.POST['letra']
+                usuario.color = peticion.POST['color']
+            usuario.save()
+
+    template = get_template('pagina_usuario.html')
+    usuario = User.objects.get(username = usuario_)
+    if query_string == "":
+        Escogidos = Escogido.objects.filter(usuario = usuario)
+    else:
+        restantes = Escogido.objects.filter(id__gt = (int(query_string)))
+        Escogidos = restantes.filter(usuario = usuario)
+
+    if len(Escogidos) <= 5:
+        fin = True
+    else:
+        fin = False
+
+    try:
+        usuario = Estilo.objects.get(usuario = usuario)
+    except:
+        usuario = ""
+
+    context = RequestContext(peticion, {'usuario': usuario,
+                                        'usuario_': usuario_,
+                                        'Escogidos': Escogidos,
+                                        'fin': fin})
+    resp = template.render(context)
+    return HttpResponse(resp)	
