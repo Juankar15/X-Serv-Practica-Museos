@@ -91,3 +91,5 @@ def pagina_principal(peticion):
 
     resp = template.render(context)
     return HttpResponse(resp)
+
+	

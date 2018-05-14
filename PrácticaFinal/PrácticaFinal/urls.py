@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.pagina_principal, name = "Página principal de la práctica"),
     
+    
 ]
