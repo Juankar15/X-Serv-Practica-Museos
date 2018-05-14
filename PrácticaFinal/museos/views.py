@@ -91,5 +91,33 @@ def pagina_principal(peticion):
 
     resp = template.render(context)
     return HttpResponse(resp)
+@csrf_exempt
+def pagina_museos(peticion):
+    lista_museos = ''
+    distrito = ''
+    if peticion.method == 'POST':
+        if "opciones" in peticion.POST:
+            distrito = peticion.POST['opciones']
+            if distrito == "Todos":
+                lista_museos = Museo.objects.all()
+            else:
+                lista_museos = Museo.objects.filter(distrito = distrito)
 
+    if peticion.method == 'GET':
+        museos = Museo.objects.all()
+        distrito = "Todos"
+    # Obtengo todos los valores de distrito
+    ListaTodos_distritos = Museo.objects.all().values_list('distrito')
+    # Obtengo los valores unicos de una lista
+    # http://stackoverflow.com/questions/12897374/get-unique-values-from-a-list-in-python
+    ListaUnico_distrito = list(set(ListaTodos_distritos))
+    # http://stackoverflow.com/questions/10941229/convert-list-of-tuples-to-list
+    ListaUnico_distrito = [distrito[0] for distrito in ListaUnico_distrito]
+
+    template = get_template('museos.html')
+    context = RequestContext(peticion, {'ListaTodos_distritos': ListaUnico_distrito,
+                                        'museos': lista_museos,
+                                        'distrito': distrito,
+                                        })
+    return HttpResponse(template.render(context))
 	

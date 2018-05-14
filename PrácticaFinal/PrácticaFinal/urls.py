@@ -19,6 +19,6 @@ from museos import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.pagina_principal, name = "Página principal de la práctica"),
-    
+    url(r'^museos$', views.pagina_museos, name = "Página con todos los museos"),
     
 ]
