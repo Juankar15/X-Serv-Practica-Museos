@@ -219,4 +219,20 @@ def pagina_usuario(peticion, usuario_):
                                         'Escogidos': Escogidos,
                                         'fin': fin})
     resp = template.render(context)
-    return HttpResponse(resp)	
+    return HttpResponse(resp)
+    
+@csrf_exempt   
+def cambiar_titulo(peticion):
+	
+    if peticion.method == "POST":
+        titulo = peticion.POST['titulo']
+        try:
+            cambio = Estilo.objects.get(usuario = peticion.user.username)
+            cambio.titulo = titulo
+            cambio.save()
+        except:
+            cambio = Estilo(usuario = peticion.user.username, titulo = titulo)
+            cambio.save()
+        direccion = '/' + peticion.user.username
+        return HttpResponseRedirect(direccion)   
+

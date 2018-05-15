@@ -19,6 +19,7 @@ from museos import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.pagina_principal, name = "Página principal de la práctica"),
+    url(r'^cambiar_titulo', views.cambiar_titulo),
     url(r'^login/?$', views.login, name = "Login de usuarios"),
     url(r'^logout/?$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^museos$', views.pagina_museos, name = "Página con todos los museos"),
