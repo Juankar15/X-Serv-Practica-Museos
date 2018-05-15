@@ -234,5 +234,9 @@ def cambiar_titulo(peticion):
             cambio = Estilo(usuario = peticion.user.username, titulo = titulo)
             cambio.save()
         direccion = '/' + peticion.user.username
-        return HttpResponseRedirect(direccion)   
-
+        return HttpResponseRedirect(direccion)  
+         
+def about(peticion):
+    template = get_template('about.html')
+    context = RequestContext(peticion)
+    return HttpResponse(template.render(context))
