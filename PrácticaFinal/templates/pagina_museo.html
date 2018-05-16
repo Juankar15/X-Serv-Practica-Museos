@@ -1,0 +1,81 @@
+{% extends "index.html" %}
+
+
+{% block menu %}
+<ul>
+  <a href="/"><li> Inicio </li></a>
+  <a href="/museos"><li> Todos </li></a>
+  <a href="/about"><li> About </li></a>
+  <a href="/{{user.username}}"><li>Página personal</li></a>
+  <a href="/{{user.username}}/xml"><li>XML usuario</li></a>
+  <a href="/rss"><li>Canal RSS </li></a>
+</ul>
+
+{% endblock %}
+
+
+{% block contenido %}
+
+  <div id="normalcontent">
+    <br/>
+    <h1><strong>{{museo.nombre}}</strong></h1>
+    <h2>Características del museo:</h2>
+    <p><b>ID-ENTIDAD:</b> {{ museo.idmuseo}}<br>
+    <b>NOMBRE:</b> {{ museo.nombre }}<br>
+    <b>DESCRIPCIÓN:</b> {{museo.descripcion_entidad }}<br>
+    {% if museo.horario == "" or museo.horario == None %}
+        <b>HORARIO:</b> No disponible<br>
+    {% else %}
+        <b>HORARIO:</b> {{ museo.horario }}<br>
+    {% endif %}
+    {% if museo.transporte == "" or museo.transporte == None %}
+        <b>TRANSPORTE:</b> No disponible<br>
+    {% else %}
+        <b>TRANSPORTE:</b> {{ museo.transporte }}<br>
+    {% endif %}
+    {% if museo.accesibilidad == 1 %}
+        <b>ACCESIBLE:</b> Sí<br>
+    {% else %}
+        <b>ACCESIBLE:</b> No<br>
+    {% endif %}
+    <b>URL:</b> <a href="{{ museo.content_URL }}">{{ museo.content_URL }}
+    </a><br>
+    <b>DIRECCIÓN:</b> {{ museo.clase_via}} {{ museo.nombre_via }},{{ museo.numero}} <br>
+    <b>LOCALIDAD:</b> {{ museo.localidad }}<br>
+    <b>PROVINCIA:</b> {{ museo.provincia }}<br>
+    <b>CÓDIGO POSTAL:</b> {{ museo.codigo_postal }}<br>
+    <b>BARRIO:</b> {{ museo.barrio }}<br>
+    <b>DISTRITO:</b> {{ museo.distrito }}<br>
+    <b>COORDENADA X:</b> {{ museo.coordenada_x }}<br>
+    <b>COORDENADA Y:</b> {{ museo.coordenada_x }}<br>
+    {% if museo.latitud == "" or museo.latitud == None %}
+        <b>LATITUD:</b> No disponible<br>
+    {% else %}
+        <b>LATITUD:</b> {{ museo.latitud }}<br>
+    {% endif %}
+    {% if museo.longitud == "" or museo.longitud == None %}
+        <b>LONGITUD:</b> No disponible<br>
+    {% else %}
+        <b>LONGITUD:</b> {{ museo.longitud }}<br>
+    {% endif %}
+    {% if museo.telefono == "" or museo.telefono == None %}
+        <b>TELÉFONO:</b> No disponible<br>
+    {% else %}
+        <b>TELÉFONO:</b> {{museo.telefono }}<br>
+    {% endif %}
+     {% if museo.fax == "" %}
+        <b>EMAIL:</b> No disponible<br><br>
+    {% else %}
+        <b>EMAIL:</b> {{museo.fax }}<br><br>
+    {% endif %}
+    {% if museo.email == "" %}
+        <b>EMAIL:</b> No disponible<br><br>
+    {% else %}
+        <b>EMAIL:</b> {{museo.email }}<br><br>
+    {% endif %}
+
+    <hr />
+    <br/>
+  </div>
+{% endblock %}
+

@@ -240,3 +240,21 @@ def about(peticion):
     template = get_template('about.html')
     context = RequestContext(peticion)
     return HttpResponse(template.render(context))
+
+def pagina_museo(peticion, idmuseo):
+    if peticion.method == "GET":
+        museo = Museo.objects.get(idmuseo = idmuseo)
+    else:
+        comentario = peticion.POST['texto']
+        museo = Museo.objects.get(idmuseo = idmuseo)
+        NuevComent = Comentario(museo = museo, texto = comentario)
+        NuevComent.save()
+     
+    
+    template = get_template('pagina_museo.html')
+    comentarios = Comentario.objects.filter(museo = museo)
+    context = RequestContext(peticion, {'museo': museo,
+                                       })
+
+    resp = template.render(context)
+    return HttpResponse(resp)
