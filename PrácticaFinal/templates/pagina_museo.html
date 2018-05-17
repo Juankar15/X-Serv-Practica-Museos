@@ -73,9 +73,22 @@
     {% else %}
         <b>EMAIL:</b> {{museo.email }}<br><br>
     {% endif %}
-
+    <b>COMENTARIOS:</b><br>
+        {% for comentario in comentarios %}
+            - {{ comentario.texto}}<br>
+        {% endfor %}
     <hr />
     <br/>
   </div>
-{% endblock %}
 
+
+  <div id="primarycontainer">
+     {% if user.is_authenticated %}
+         <h2>Introduce tu comentario:</h2>
+            <form method="post" action="/museos/{{ museo.idmuseo }}">
+            <input class="comentario" value="{{ form.texto }}" name="texto"><br>
+            <input type="submit" value="Enviar">
+         </form>
+     {% endif %}
+  </div>
+{% endblock %}

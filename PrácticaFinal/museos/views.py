@@ -14,6 +14,7 @@ from django.utils import timezone
 from django.contrib import auth
 from django.contrib.auth import authenticate,login, logout
 from django.core.exceptions import ObjectDoesNotExist
+
 # Create your views here.
 @csrf_exempt
 def pagina_principal(peticion):
@@ -162,6 +163,7 @@ def login(peticion):
     else:
         template = get_template('error.html')
         return HttpResponse(template.render(Context({'texto': "Usuario no autenticado"})))
+        
 @csrf_exempt
 def logout(peticion):
     if peticion.method == "POST":
@@ -240,21 +242,29 @@ def about(peticion):
     template = get_template('about.html')
     context = RequestContext(peticion)
     return HttpResponse(template.render(context))
-
+    
+@csrf_exempt    
 def pagina_museo(peticion, idmuseo):
     if peticion.method == "GET":
-        museo = Museo.objects.get(idmuseo = idmuseo)
+        try:
+            museo = Museo.objects.get(idmuseo = idmuseo)
+
+        except Museo.DoesNotExist:
+            template = get_template('error.html')
+            return HttpResponse(plantilla.render(), status = 404)
     else:
         comentario = peticion.POST['texto']
         museo = Museo.objects.get(idmuseo = idmuseo)
         NuevComent = Comentario(museo = museo, texto = comentario)
         NuevComent.save()
-     
+    
     
     template = get_template('pagina_museo.html')
     comentarios = Comentario.objects.filter(museo = museo)
     context = RequestContext(peticion, {'museo': museo,
-                                       })
+                              'comentarios': comentarios,
+                              })
 
     resp = template.render(context)
-    return HttpResponse(resp)
+    return HttpResponse(resp)	
+
