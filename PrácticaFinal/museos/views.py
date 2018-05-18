@@ -18,13 +18,10 @@ from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 @csrf_exempt
 def pagina_principal(peticion):
-   
+    accesibilidad = True
+    museos_comentados = ''
     if peticion.method == "POST":
-        if "boton" in peticion.POST:
-            eleccion = peticion.POST['boton']
-        else:
-            eleccion = ""
-            
+        if "boton" in peticion.POST:            
             # http://stackoverflow.com/questions/2792650/python3-error-import-error-no-module-name-urllib2
             ArchivoXML = urlopen("https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=xml&file=0&filename=201132-0-museos&mgmtid=118f2fdbecc63410VgnVCM1000000b205a0aRCRD&preview=full")
             tree = ET.parse(ArchivoXML)
@@ -81,7 +78,26 @@ def pagina_principal(peticion):
                     museo_nuevo.save()
                 else:
                     pass
-  
+    elif peticion.method == "GET" or eleccion == "Desactivar" or eleccion == "":
+		#https://stackoverflow.com/questions/2501149/order-by-count-of-a-foreignkey-field
+        museos_comentados = Museo.objects.annotate(num_com = Count('comentario')).order_by('-num_com')[:5]
+
+    try:
+        lista_usuarios = User.objects.all()
+        lista_titulos = []
+        for usuario_ in lista_usuarios: #recorremos para cada usuario la lista de usuarios
+            try:
+                mod = Cambio.objects.get(usuario = usuario_.username)
+                if mod.titulo != '':
+                    titulo = mod.titulo
+                else:
+                    titulo = "Pagina de " + usuario_.username
+                lista_titulos.append((titulo, usuario_.username))
+            except:
+                titulo = "Pagina de " + usuario_.username
+                lista_titulos.append((titulo, usuario_.username))
+    except:
+        lista_usuarios = []
 
     lista_museos = Museo.objects.all()
     if len(lista_museos) == 0: #Si no hay ningun museo los cargamos
@@ -90,7 +106,8 @@ def pagina_principal(peticion):
         cargar = False
 
     template = get_template('pagina_principal.html')
-    context = RequestContext(peticion, {
+    context = RequestContext(peticion, {'lista_titulos': lista_titulos,
+                                        'museos_comentados': museos_comentados,
                                         'cargar': cargar})
 
     resp = template.render(context)
