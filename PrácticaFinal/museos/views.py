@@ -21,7 +21,19 @@ def pagina_principal(peticion):
     accesibilidad = True
     museos_comentados = ''
     if peticion.method == "POST":
-        if "boton" in peticion.POST:            
+        if "boton" in peticion.POST:
+            eleccion = peticion.POST['boton']
+           
+            if eleccion == "Activar":
+				#https://stackoverflow.com/questions/2501149/order-by-count-of-a-foreignkey-field
+                museos_comentados = Museo.objects.annotate(num_com = Count('comentario')).filter(accesibilidad = 1).order_by('-num_com')[:5]
+                accesibilidad = True
+            elif eleccion == "Desactivar":
+	            museos_comentados = Museo.objects.annotate(num_com = Count('comentario')).order_by('-num_com')[:5]
+	            accesibilidad = False
+        else:
+            eleccion = ""
+            
             # http://stackoverflow.com/questions/2792650/python3-error-import-error-no-module-name-urllib2
             ArchivoXML = urlopen("https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=xml&file=0&filename=201132-0-museos&mgmtid=118f2fdbecc63410VgnVCM1000000b205a0aRCRD&preview=full")
             tree = ET.parse(ArchivoXML)
@@ -78,10 +90,11 @@ def pagina_principal(peticion):
                     museo_nuevo.save()
                 else:
                     pass
-    elif peticion.method == "GET" or eleccion == "Desactivar" or eleccion == "":
+    elif peticion.method == "GET" or eleccion == "":
 		#https://stackoverflow.com/questions/2501149/order-by-count-of-a-foreignkey-field
         museos_comentados = Museo.objects.annotate(num_com = Count('comentario')).order_by('-num_com')[:5]
-
+        accesibilidad = False
+          
     try:
         lista_usuarios = User.objects.all()
         lista_titulos = []
@@ -107,12 +120,12 @@ def pagina_principal(peticion):
 
     template = get_template('pagina_principal.html')
     context = RequestContext(peticion, {'lista_titulos': lista_titulos,
+                                        'accesibilidad': accesibilidad,
                                         'museos_comentados': museos_comentados,
                                         'cargar': cargar})
 
     resp = template.render(context)
     return HttpResponse(resp)
-
 @csrf_exempt
 def pagina_museos(peticion):
     lista_museos = ''
@@ -165,7 +178,6 @@ def pagina_museos(peticion):
                                         'museos': lista_museos,
                                         'distrito': distrito,
                                         'Escogidos': lista_Escogidos})
-                                        
     return HttpResponse(template.render(context))
 
 @csrf_exempt
@@ -263,12 +275,7 @@ def about(peticion):
 @csrf_exempt    
 def pagina_museo(peticion, idmuseo):
     if peticion.method == "GET":
-        try:
-            museo = Museo.objects.get(idmuseo = idmuseo)
-
-        except Museo.DoesNotExist:
-            template = get_template('error.html')
-            return HttpResponse(plantilla.render(), status = 404)
+	    museo = Museo.objects.get(idmuseo = idmuseo)
     else:
         comentario = peticion.POST['texto']
         museo = Museo.objects.get(idmuseo = idmuseo)
@@ -283,5 +290,5 @@ def pagina_museo(peticion, idmuseo):
                               })
 
     resp = template.render(context)
-    return HttpResponse(resp)	
+    return HttpResponse(resp)
 

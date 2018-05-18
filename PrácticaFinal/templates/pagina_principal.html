@@ -1,5 +1,6 @@
 {% extends "index.html" %}
 
+
 {% block menu %}
 <ul>
    <a href="/museos"><li> Todos </li></a>
@@ -30,8 +31,42 @@
                </a></p><br />
            {% endif %}
       {% endfor %}
-      <h3>Si desea cargar el XML con el contenido de esta página&nbsp<a href="/pagina_xml">pulse aquí</a></h3>
+      
    {% endif %}
+</div>
+
+<div id="secondarycontent">
+  <div>
+    <br/><br/>
+    <div class="box" style="text-align:center">
+      <h4>Páginas de otros usuarios:</h4>
+      <div class="contentarea">
+        <ul class="linklist">
+          {% for titulo, usuario in lista_titulos %}
+            {% if usuario != user.username %}
+              <li>
+                <a href="/{{usuario}}">{{usuario}}&nbsp--&nbsp{{titulo | safe}}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <h2>Botón de accesibilidad</h2>
+         {% if accesibilidad %}
+             <p>Pulse si desea ver tanto los museos accesibles como los no accesibles</p>
+             <form method="post" action="/">
+                <input type="submit" value="Desactivar" name="boton">
+             </form>
+         {% else %}
+             <p>Pulse si solo desea ver los museos accesibles</p>
+             <form method="post" action="/">
+                <input type="submit" value="Activar" name="boton">
+             </form>
+         {% endif %}
+    <hr />
+    </div>
+  </div>
 </div>
 
 
