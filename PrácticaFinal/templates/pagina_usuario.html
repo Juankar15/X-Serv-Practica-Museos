@@ -45,7 +45,7 @@
    {% if usuario_ == user.username %}
       <div class="box">
        <h4>Inserta el título que desees para tu página</h4>
-       <form method="POST"> 
+       <form method="POST" action="/cambiar_titulo"> 
        {% csrf_token %}
        <input type="text" name="titulo" /><br/>
        <input type="submit" value="Cambiar" />

@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^css$', views.css),
     url(r'^templates/styles\.css', views.css),
+    url(r'museos/templates/styles\.css$', views.css),
     url(r'^about$', views.about, name = "Página autoría de la práctica y funcionamiento"),
     url(r'^$', views.pagina_principal, name = "Página principal de la práctica"),
     url(r'^cambiar_titulo', views.cambiar_titulo),
