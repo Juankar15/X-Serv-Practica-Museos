@@ -207,7 +207,7 @@ def pagina_usuario(peticion, usuario_):
         # Obtener una query string:
         # https://docs.djangoproject.com/en/1.8/ref/request-response/#django.http.HttpRequest.META
         query_string = peticion.META['QUERY_STRING']
-   
+	   
     else:
         query_string = ""
         if peticion.user.is_authenticated():
@@ -250,20 +250,7 @@ def pagina_usuario(peticion, usuario_):
     resp = template.render(context)
     return HttpResponse(resp)
     
-@csrf_exempt   
-def cambiar_titulo(peticion):
-	
-    if peticion.method == "POST":
-        titulo = peticion.POST['titulo']
-        try:
-            cambio = Estilo.objects.get(usuario = peticion.user.username)
-            cambio.titulo = titulo
-            cambio.save()
-        except:
-            cambio = Estilo(usuario = peticion.user.username, titulo = titulo)
-            cambio.save()
-        direccion = '/' + peticion.user.username
-        return HttpResponseRedirect(direccion) 
+
          
 def about(peticion):
     template = get_template('about.html')
@@ -297,3 +284,43 @@ def pagina_xml(peticion, usuario_):
     context = RequestContext(peticion, {'Escogidos': Escogidos, 'usuario_': usuario_})
 
     return HttpResponse(template.render(context), content_type = "text/xml")
+
+@csrf_exempt       
+def css(peticion):
+    usuario = peticion.user.username
+
+    if peticion.method == "GET":
+        if peticion.user.is_authenticated:
+            cambioEstilo = Estilo.objects.get(usuario = usuario)
+            color = cambioEstilo.color
+            letra = cambioEstilo.letra
+           
+        template = get_template('styles.css')
+        context = RequestContext(peticion, {'color': color, 'letra': letra})
+        return HttpResponse(template.render(context), content_type = "text/css")
+
+    if peticion.method == "POST":
+        color = peticion.POST['color']
+        letra = peticion.POST['letra']
+        cambioEstilo = Estilo.objects.get(usuario = usuario)
+        cambioEstilo.color = color
+        cambioEstilo.letra = letra
+        cambioEstilo.save()
+
+        direccion = '/' + usuario
+        return HttpResponseRedirect(direccion)
+@csrf_exempt   
+def cambiar_titulo(peticion):
+	
+    if peticion.method == "POST":
+        titulo = peticion.POST['titulo']
+        try:
+            cambio = Estilo.objects.get(usuario = peticion.user.username)
+            cambio.titulo = titulo
+            cambio.save()
+        except:
+            cambio = Estilo(usuario = peticion.user.username, titulo = titulo)
+            cambio.save()
+        direccion = '/' + peticion.user.username
+        return HttpResponseRedirect(direccion)    
+

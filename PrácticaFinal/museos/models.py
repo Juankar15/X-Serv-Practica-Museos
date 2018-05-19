@@ -45,3 +45,4 @@ class Estilo(models.Model):
 	letra = models.CharField(max_length = 64, null = True, blank = True)
 	color = models.CharField(max_length = 32)
 	titulo = models.CharField(max_length = 64, default = '')
+	

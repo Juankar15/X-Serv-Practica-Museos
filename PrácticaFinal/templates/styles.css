@@ -1,0 +1,66 @@
+
+* {
+	margin:0;
+	padding:0;
+}
+body {
+	font-family: 'Helvetica', serif;
+	font-size:16px;
+	color: #154789;
+	background-color:{{ color|default:'#123456' }};
+	}
+#pie_pagina{
+    position: relative;
+    width:100%;
+    background-color: FAEBD7;
+    bottom:0;
+    height: 2.0px;
+    float:right;
+    clear: both;
+    padding-top: 5.0px;
+    left:0;
+    margin-left: 559px;
+    color:black;
+    font-size: 4;
+}
+
+p {
+	font-size: {{letra}};
+	
+}
+nav {
+	position:relative;
+	top:-40px;
+}
+#navlist {
+	padding: 3px 0;
+	margin-left: 0;
+	font-family: 'Lobster', sans-serif;
+}
+#navlist li {
+	list-style: none;
+	margin: 0;
+	display: inline;
+}
+#navlist li a {
+	padding: 4px 10px;
+	margin-left: 3px;
+	border-bottom: none;
+	background: #123456;
+	text-decoration: none;
+	text-shadow: none;
+	font-size:24px;
+	border-radius:5px 5px 0 0;
+}
+#navlist li a:link {
+	background-color:{{ color|default:'#1234567' }};
+}
+#navlist li a:hover {
+	background-color:{{ color|default:'#1234567' }};
+	border-color: #227;
+}
+#navlist li a#current {
+	
+	color:#363636;
+}
+
