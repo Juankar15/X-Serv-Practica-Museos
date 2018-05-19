@@ -322,5 +322,11 @@ def cambiar_titulo(peticion):
             cambio = Estilo(usuario = peticion.user.username, titulo = titulo)
             cambio.save()
         direccion = '/' + peticion.user.username
-        return HttpResponseRedirect(direccion)    
-
+        return HttpResponseRedirect(direccion)  
+          
+def canal_rss(peticion):
+    comentarios = Comentario.objects.all()
+    template = get_template('canal.rss')
+    context = RequestContext(peticion, {'comentarios': comentarios})
+    
+    return HttpResponse(template.render(context), content_type = "text/rss+xml")
