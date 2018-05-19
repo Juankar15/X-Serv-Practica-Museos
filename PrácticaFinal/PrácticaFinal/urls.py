@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^logout/?$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^museos$', views.pagina_museos, name = "Página con todos los museos"),
     url(r'^museos/(\d+)', views.pagina_museo, name = "Página de un museo"), 
+     url(r'^(.*)/xml$', views.pagina_xml, name = "Canal XML"),
     url(r'^(.*)$', views.pagina_usuario, name = "Página personal de un usuario"),
     
 ]

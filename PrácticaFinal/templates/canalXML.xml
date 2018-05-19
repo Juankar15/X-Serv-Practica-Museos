@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <escogidos>
+        <titulo> Canal XML de {{ usuario_ }}</titulo>
+        {% for Escogido in Escogidos %}
+            <museo>
+                <idmuseo>{{ Escogido.museo.idmuseo }}</idmuseo>
+                <nombre>{{ Escogido.museo.nombre }}</nombre>
+                <descripcion_entidad>{{ Escogido.museo.descripcion_entidad }}</descripcion_entidad>
+                <horario>{{ Escogido.museo.horario }}</horario>
+                <horario>{{ Escogido.museo.horario }}</horario>
+                <transporte>{{ Escogido.museo.transporte }}</transporte>
+                <accesibilidad>{{ Escogido.museo.accesibilidad }}</accesibilidad>
+                <content_URL>{{ Escogido.museo.content_URL }}</content_URL>
+                <nombre_via>{{ Escogido.museo.nombre_via }}</nombre_via>
+                <clase_via>{{ Escogido.museo.clase_via }}</clase_via>
+                <tipo_num>{{ Escogido.museo.tipo_num }}</tipo_num>
+                <numero>{{ Escogido.museo.numero }}</numero>
+                <localidad>{{ Escogido.museo.localidad }}</localidad>
+                <provincia>{{ Escogido.museo.provincia }}</provincia>
+                <codigo_postal>{{ Escogido.museo.codigo_postal }}</codigo_postal>
+                <barrio>{{ Escogido.museo.barrio }}</barrio>
+                <distrito>{{ Escogido.museo.distrito }}</distrito>
+                <coordenada_x>{{ Escogido.museo.coordenada_x }}</coordenada_x>
+                <coordenada_y>{{ Escogido.museo.coordenada_y }}</coordenada_y>
+                <latitud>{{ Escogido.museo.latitud }}</latitud>
+                <longitud>{{ Escogido.museo.longitud }}</longitud>
+                <telefono>{{ Escogido.museo.telefono }}</telefono>
+                <fax>{{ Escogido.museo.fax }}</fax>
+                <email>{{ Escogido.museo.email }}</email>
+                <tipo>{{ Escogido.museo.tipo }}</tipo>
+            </museo>
+        {% endfor %}
+    </escogidos>

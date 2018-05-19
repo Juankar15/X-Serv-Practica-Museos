@@ -34,7 +34,6 @@ class Museo(models.Model):
 class Comentario(models.Model):
 	museo = models.ForeignKey(Museo)
 	texto = models.TextField()
-	#usuario = models.CharField(max_length = 32)
 
 class Escogido(models.Model):
 	museo = models.ForeignKey(Museo)

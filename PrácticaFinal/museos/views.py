@@ -190,7 +190,6 @@ def login(peticion):
             auth.login(peticion, user)
         return HttpResponseRedirect('/')
     else:
-        template = get_template('error.html')
         return HttpResponse(template.render(Context({'texto': "Usuario no autenticado"})))
         
 @csrf_exempt
@@ -204,8 +203,7 @@ def pagina_usuario(peticion, usuario_):
         try:
             usuario = User.objects.get(username = usuario_)
         except User.DoesNotExist:
-            template = get_template('error.html')
-            return HttpResponse(template.render(), status=404)
+            return HttpResponse("Not Found", status = 404)
         # Obtener una query string:
         # https://docs.djangoproject.com/en/1.8/ref/request-response/#django.http.HttpRequest.META
         query_string = peticion.META['QUERY_STRING']
@@ -265,7 +263,7 @@ def cambiar_titulo(peticion):
             cambio = Estilo(usuario = peticion.user.username, titulo = titulo)
             cambio.save()
         direccion = '/' + peticion.user.username
-        return HttpResponseRedirect(direccion)  
+        return HttpResponseRedirect(direccion) 
          
 def about(peticion):
     template = get_template('about.html')
@@ -292,3 +290,10 @@ def pagina_museo(peticion, idmuseo):
     resp = template.render(context)
     return HttpResponse(resp)
 
+def pagina_xml(peticion, usuario_):
+    
+    template = get_template('canalXML.xml')
+    Escogidos = Escogido.objects.filter(usuario = usuario_)
+    context = RequestContext(peticion, {'Escogidos': Escogidos, 'usuario_': usuario_})
+
+    return HttpResponse(template.render(context), content_type = "text/xml")
