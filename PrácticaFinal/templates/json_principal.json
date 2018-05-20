@@ -1,0 +1,26 @@
+{
+	"LOS CINCO MUSEOS CON MÁS COMENTARIOS":{
+		"TÍTULO: JSON", 
+		{%for museo in museos_comentados %}
+			{% if museo.num_com > 0 %}
+			MUSEO :{
+					"ID": "{{museo.idmuseo}}"
+					"NOMBRE": "{{museo.nombre}}"
+					"NOMBRE VÍA": "{{museo.nombre_via}}"
+					"HORARIO": "{{museo.horario}}"
+					"TRANSPORTE": "{{museo.transporte}}"
+					"ACCESIBILIDAD": "{{museo.accesibilidad}}"
+					"URL": "{{museo.content_url}}"
+					"LOCALIDAD": "{{museo.localidad}}"
+					"PROVINCIA": "{{museo.provincia}}"
+					"DISTRITO": "{{museo.distrito}}"
+					"TELÉFONO": "{{museo.telefono}}"
+					"FAX": "{{museo.fax}}"
+					"EMAIL": "{{museo.email}}"
+			
+					}
+			{% endif%}
+		{% endfor%}
+		
+	}
+ }
