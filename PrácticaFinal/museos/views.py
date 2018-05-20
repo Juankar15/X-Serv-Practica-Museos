@@ -100,7 +100,7 @@ def pagina_principal(peticion):
         lista_titulos = []
         for usuario_ in lista_usuarios: #recorremos para cada usuario la lista de usuarios
             try:
-                mod = Cambio.objects.get(usuario = usuario_.username)
+                mod = Estilo.objects.get(usuario = usuario_.username)
                 if mod.titulo != '':
                     titulo = mod.titulo
                 else:
@@ -135,6 +135,7 @@ def pagina_museos(peticion):
             distrito = peticion.POST['opciones']
             if distrito == "Todos":
                 lista_museos = Museo.objects.all()
+                
             else:
                 lista_museos = Museo.objects.filter(distrito = distrito)
         else:
@@ -189,9 +190,7 @@ def login(peticion):
         if user is not None:
             auth.login(peticion, user)
         return HttpResponseRedirect('/')
-    else:
-        return HttpResponse(template.render(Context({'texto': "Usuario no autenticado"})))
-        
+
 @csrf_exempt
 def logout(peticion):
     if peticion.method == "POST":
@@ -212,11 +211,7 @@ def pagina_usuario(peticion, usuario_):
         query_string = ""
         if peticion.user.is_authenticated():
             usuario = User.objects.get(username = peticion.user.username)
-            try:
-                usuario = Estilo.objects.get(usuario = usuario)
-            except:
-                user = User.objects.get(username = peticion.user.username)
-                usuario = Estilo(usuario = user)
+            usuario = Estilo.objects.get(usuario = usuario)
 
             if 'titulo' in peticion.POST:
                 usuario.titulo = peticion.POST['titulo']
@@ -238,10 +233,7 @@ def pagina_usuario(peticion, usuario_):
     else:
         fin = False
 
-    try:
-        usuario = Estilo.objects.get(usuario = usuario)
-    except:
-        usuario = ""
+    usuario = Estilo.objects.get(usuario = usuario)
 
     context = RequestContext(peticion, {'usuario': usuario,
                                         'usuario_': usuario_,
@@ -249,8 +241,6 @@ def pagina_usuario(peticion, usuario_):
                                         'fin': fin})
     resp = template.render(context)
     return HttpResponse(resp)
-    
-
          
 def about(peticion):
     template = get_template('about.html')
@@ -267,15 +257,13 @@ def pagina_museo(peticion, idmuseo):
         NuevComent = Comentario(museo = museo, texto = comentario)
         NuevComent.save()
     
-    
     template = get_template('pagina_museo.html')
     comentarios = Comentario.objects.filter(museo = museo)
     context = RequestContext(peticion, {'museo': museo,
                               'comentarios': comentarios,
                               })
 
-    resp = template.render(context)
-    return HttpResponse(resp)
+    return HttpResponse(template.render(context))
 
 def pagina_xml(peticion, usuario_):
     
@@ -313,6 +301,7 @@ def css(peticion):
 
         direccion = '/' + usuario
         return HttpResponseRedirect(direccion)
+        
 @csrf_exempt   
 def cambiar_titulo(peticion):
 	

@@ -5,7 +5,7 @@
 {% block menu %}
 <ul>
   <a href="/"><li> Inicio </li></a>
-  <a href="/museo"><li> Todos </li></a>
+  <a href="/museos"><li> Todos </li></a>
   <a href="/about"><li> About </li></a>
   <a href="/{{user.username}}"><li>Página personal</li></a>
   <a href="/{{user.username}}/xml"><li>XML</li></a>
@@ -21,10 +21,32 @@
     <h1>Esta práctica ha sido realizada por Margarita Fernández Torrejón</h1><br/>
     <h4>Doble Grado en Ingeniería en Sistemas de Telecomunicación + Administración y Dirección de Empresas</h4><br/><br/>
 
-    <p> Esta aplicación web ofrece información sobre los museos de la ciudad de Madrid.<br/>
-      Descarga dicha información en formato XML del portal de datos abiertos de Madrid y se
-      los ofrece a los usuarios para que puedan elegir aquellos que les parecen más
-      interesantes y que desean visitar. <br/> </p>
+    <p> Esta aplicación web ofrece información sobre los museos de la ciudad de Madrid. Descarga dicha información en formato XML
+        del portal de datos abiertos de Madrid y se los ofrece a los usuarios para que puedan elegir aquellos que les parecen
+        más interesantes y que desean visitar. <br/> </p>
+    <p> 1. En la página principal (INICIO) aparecen los 5 museos más comentados. Se incluye la siguiente información:<br/>
+		   		- El nombre del museo que es un enlace a la página del mismo. <br/>
+				- La dirección del museo.<br/>
+				- El enlace 'Más información' que es un enlace a su página en el sitio.<br/>
+		  En la página principal también encontramos el botón de accesibilidad. Si pulsamos sobre él nos aparecerán los museos 
+		  con accesibilidad '1' de entre los 5 con más comentarios. Además, en la parte derecha tenemos las páginas de otros
+		  usuarios, que son enlaces a sus páginas personales<br/>
+		2. En la página de todos los museos nos aparecerá a la derecha de la misma un filtro para elegir si queremos que nos
+		   salgan todos los museos o si queremos filtrarlos por distrito. Sea cual sea la opción del filtrado, nos aparecerá
+		   el nombre del museo junto con un enlace a su página. En el caso de que el usuario esté autenticado tendrá la 
+		   posibilidad de seleccionar los museos que quiera o de dejar de seleccionar aquellos que quiera que desaparezcan
+		   de su página personal.<br/>
+		3. En la página about (actual) nos aparece el funcionamiento de la práctica junto con la autoría de la misma. <br/>
+		4. XML usuario es un canal para los museos elegidos por el usuario. Aparece una entrada por cada museo seleccionado.<br/>
+		5. RSS es el canal en el que aparecen todos los comentarios que hay.<br/>
+		6. JSON es la página principal utilizando formato JSON.<br/>
+		7. Cuando el usuario se haya autenticado, nos aparecerá también la página personal. En ella aparece el listado de los 
+		   museos que hemos seleccionado. Aparece el nombre (que es un enlace a su página), su dirección, el enlace 'Más información'
+		   y la fecha en la que ha sido seleccionado. Abajo del todo nos aparece la opción de cambiar el título de la página, el fondo
+		   y el tamaño de la letra.<br/>
+	    8. En la página de cada museo (a la que llegamos al pulsar sobre el enlace 'Más información') nos aparece todos los
+	       datos que queramos consultar sobre ese museo. Además, abajo del todo, tenemos la opción de añadir comentarios.<br/>
+	       </p>
   </div>
 
 {% endblock %}

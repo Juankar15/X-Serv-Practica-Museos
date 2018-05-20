@@ -36,8 +36,6 @@
    {% endif %}
 </div>
 
-
-
 <div id="secondarycontent">
   <div>
     <br/><br/>
@@ -48,7 +46,7 @@
           {% for titulo, usuario in lista_titulos %}
             {% if usuario != user.username %}
               <li>
-                <a href="/{{usuario}}">{{usuario}}&nbsp--&nbsp{{titulo | safe}}</a>
+                <a href="/{{usuario}}">{{usuario}}&nbsp--&nbsp{{titulo}}</a>
               </li>
             {% endif %}
           {% endfor %}

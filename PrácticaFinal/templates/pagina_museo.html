@@ -9,7 +9,7 @@
   <a href="/{{user.username}}"><li>Página personal</li></a>
   <a href="/{{user.username}}/xml"><li>XML usuario</li></a>
   <a href="/rss"><li>Canal RSS </li></a>
-  <a href="/json"><li>JSON página principal</li></a>
+  <a href="/json"><li>JSON pág ppal</li></a>
 </ul>
 
 {% endblock %}
@@ -76,7 +76,7 @@
     {% endif %}
     <b>COMENTARIOS:</b><br>
         {% for comentario in comentarios %}
-            - {{ comentario.texto}}<br>
+            {{ comentario.texto}}<br>
         {% endfor %}
     <hr />
     <br/>
