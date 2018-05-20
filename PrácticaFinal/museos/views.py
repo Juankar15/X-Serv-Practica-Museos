@@ -189,7 +189,16 @@ def login(peticion):
         user = auth.authenticate(username = username, password = password)
         if user is not None:
             auth.login(peticion, user)
-        return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/')
+        else:
+            nuevo_usuario = User.objects.create_user(username = username, password = password)
+            usuario = User.objects.get(username = username)
+            titulo = 'Página de ' + nuevo_usuario.username
+            cambio = Estilo(titulo = titulo, usuario = usuario)
+            cambio.save()
+            return HttpResponseRedirect('/')
+            
+        
 
 @csrf_exempt
 def logout(peticion):
@@ -233,7 +242,10 @@ def pagina_usuario(peticion, usuario_):
     else:
         fin = False
 
-    usuario = Estilo.objects.get(usuario = usuario)
+    try:
+        usuario = Estilo.objects.get(usuario = usuario)
+    except:
+        usuario = ""
 
     context = RequestContext(peticion, {'usuario': usuario,
                                         'usuario_': usuario_,
@@ -294,10 +306,14 @@ def css(peticion):
     if peticion.method == "POST":
         color = peticion.POST['color']
         letra = peticion.POST['letra']
-        cambioEstilo = Estilo.objects.get(usuario = usuario)
-        cambioEstilo.color = color
-        cambioEstilo.letra = letra
-        cambioEstilo.save()
+        try:
+            cambioEstilo = Estilo.objects.get(usuario = usuario)
+            cambioEstilo.color = color
+            cambioEstilo.letra = letra
+            cambioEstilo.save()
+        except:
+            cambioEstilo = Estilo(usuario = usuario, letra = letra, color = color)
+            cambioEstilo.save()
 
         direccion = '/' + usuario
         return HttpResponseRedirect(direccion)

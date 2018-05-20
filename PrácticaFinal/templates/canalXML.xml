@@ -7,7 +7,6 @@
                 <nombre>{{ Escogido.museo.nombre }}</nombre>
                 <descripcion_entidad>{{ Escogido.museo.descripcion_entidad }}</descripcion_entidad>
                 <horario>{{ Escogido.museo.horario }}</horario>
-                <horario>{{ Escogido.museo.horario }}</horario>
                 <transporte>{{ Escogido.museo.transporte }}</transporte>
                 <accesibilidad>{{ Escogido.museo.accesibilidad }}</accesibilidad>
                 <content_URL>{{ Escogido.museo.content_URL }}</content_URL>

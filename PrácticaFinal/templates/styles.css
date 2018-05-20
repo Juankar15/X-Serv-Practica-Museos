@@ -238,12 +238,11 @@ section {
 }
 
 button {
-	border-radius:12px;
 	padding:3px 12px;
 	background:white;
 	color:DeepPink;
 	text-transform:uppercase;
-	font-style:italic;
+	font-style:normal;
 	cursor:pointer;
 	margin:10px 0;
 	font-size:20px;
