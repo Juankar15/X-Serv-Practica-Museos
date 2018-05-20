@@ -31,6 +31,7 @@ class Museo(models.Model):
 	tipo = models.TextField()
 	
 	
+	
 class Comentario(models.Model):
 	museo = models.ForeignKey(Museo)
 	texto = models.TextField()

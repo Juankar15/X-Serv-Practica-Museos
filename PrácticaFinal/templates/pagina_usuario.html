@@ -53,9 +53,7 @@
      </div>
      <div class="box">
        <h4>¿Desea cambiar el estilo?</h4>
-<!--
-       Tengo que crear styles.css pero al final
--->
+
        <form action="/templates/styles.css" method="post">
        {% csrf_token %}
        <p>Elige el color de fondo que desees para tu página:</p>
@@ -84,14 +82,14 @@
        <p>Elige el tamaño de letra:</p>
        <select name="letra">
          <option>Por Defecto</option>
-         <option>0.3em</option>
-         <option>0.5em</option>
-         <option>0.8em</option>
-         <option>1.0em</option>
-         <option>1.5em</option>
-         <option>2.0em</option>
-         <option>2.5em</option>
-         <option>3.0em</option>
+         <option>6px</option>
+         <option>8px</option>
+         <option>10px</option>
+         <option>12px</option>
+         <option>14px</option>
+         <option>16px</option>
+         <option>18px</option>
+         <option>20px</option>
        </select>
        <br/><br/>
        <input type="submit" value="Cambiar">

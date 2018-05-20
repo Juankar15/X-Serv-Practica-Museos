@@ -334,3 +334,5 @@ def canal_rss(peticion):
     context = RequestContext(peticion, {'comentarios': comentarios})
     
     return HttpResponse(template.render(context), content_type = "text/rss+xml")
+    
+

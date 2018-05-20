@@ -2,7 +2,7 @@
 <rss version="2.0">
 <channel>
     <title>COMENTARIOS INTRODUCIDOS</title>
-    <link>http://localhost:8001</link>
+    <link>http://localhost:8000</link>
     <description> Comentarios que hay en los museos </description>
     {% for comentario in comentarios %}
     <item>
