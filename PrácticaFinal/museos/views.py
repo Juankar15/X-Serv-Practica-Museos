@@ -291,9 +291,13 @@ def css(peticion):
 
     if peticion.method == "GET":
         if peticion.user.is_authenticated:
-            cambioEstilo = Estilo.objects.get(usuario = usuario)
-            color = cambioEstilo.color
-            letra = cambioEstilo.letra
+            try:
+                cambioEstilo = Estilo.objects.get(usuario = usuario)
+                color = cambioEstilo.color
+                letra = cambioEstilo.letra
+            except:
+                color = '#FAEBD7'
+                letra = '14px'
            
         template = get_template('styles.css')
         context = RequestContext(peticion, {'color': color, 'letra': letra})

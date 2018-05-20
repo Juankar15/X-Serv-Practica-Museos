@@ -64,3 +64,94 @@ nav {
 	color:#363636;
 }
 
+#menu
+{
+position: relative;
+background-color: #48D1CC;
+height: 3.5em;
+padding: 0em 1.0em 0em 1.0em;
+margin-bottom: 2px;
+}
+
+#menu ul
+{
+top: 1.1em;
+padding-bottom: 5px;
+}
+
+#menu ul li
+{
+position: relative;
+display: inline;
+padding: 8px 13px;
+float: left;
+}
+
+#menu ul li a
+{
+padding: 8px 13px;
+color: pink;
+
+font-size: 2.5em;
+}
+
+#menu ul a li
+{
+font-size: 2.0em;
+border-right: 1px solid #191970;
+text-decoration: none;
+}
+#menu {
+    position: relative;
+    background-color: pink;
+    font-size:16px;
+    color:black;
+}
+
+#loginlogout {
+    float: right;
+    padding-right: 25px;
+    height:35px;
+    top: 3px;
+    right: 2.0em;
+    color: black;
+    text-decoration: underline;
+    position: absolute;
+}
+
+#arriba_derecha input.submit
+{
+background: #939B00;
+border: solid 1px pink;
+font-weight: bold;
+padding: 0.25em;
+font-size: 0.8em;
+color: #F2F3DE;
+vertical-align: middle;
+}
+
+a:link {
+	color: blue;
+	text-decoration: underline;
+}
+
+h1 {
+	font-size:16px;
+	color: grey;
+	font-family: 'Lobster', sans-serif;
+	padding: 0 0 10px 0;
+	
+}
+h2 {
+	font-size:30px;
+	color:grey;
+	font-family: 'Lobster', sans-serif;
+	padding: 0 0 10px 0;
+	
+}
+#normalcontent .titulo
+{
+text-transform: uppercase;
+font-size: 2;
+color: #48D1CC;
+}
