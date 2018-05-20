@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding ='UTF-8' ?>
+<MUSEOS>
+	<TITULO>Página Principal en XML</TITULO>
+	<INFORMACION>
+		{% for museo in museos_comentados %}
+			{% if museo.num_com > 0 %}
+			<MUSEO>
+				<idmuseo>{{museo.idmuseo }}</idmuseo>
+                <nombre>{{ museo.nombre }}</nombre>
+                <horario>{{museo.horario }}</horario>
+                <transporte>{{ museo.transporte }}</transporte>
+                <accesibilidad>{{ museo.accesibilidad }}</accesibilidad>
+                <content_URL>{{ museo.content_URL }}</content_URL>
+                <nombre_via>{{ museo.nombre_via }}</nombre_via>
+                <localidad>{{ museo.localidad }}</localidad>
+                <provincia>{{ museo.provincia }}</provincia>
+                <distrito>{{ Escogido.museo.distrito }}</distrito>
+                <telefono>{{ museo.telefono }}</telefono>
+                <fax>{{ museo.fax }}</fax>
+                <email>{{ museo.email }}</email>
+			</MUSEO>
+			{% endif%}
+		{% endfor %}
+	</INFORMACION>
+</MUSEOS> 

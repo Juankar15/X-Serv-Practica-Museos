@@ -328,4 +328,12 @@ def json_pagina_principal(peticion):
     template = get_template('json_principal.json')
     museos_comentados = Museo.objects.annotate(num_com = Count('comentario')).order_by('-num_com')[:5]
     context = RequestContext(peticion, {'museos_comentados': museos_comentados})
+    
     return HttpResponse(template.render(context), content_type = "text/json")
+    
+def pagina_principal_xml(peticion):
+    template = get_template('pagina_principal.xml')
+    museos_comentados = Museo.objects.annotate(num_com = Count('comentario')).order_by('-num_com')[:5]
+    context = RequestContext(peticion, {'museos_comentados': museos_comentados})
+    return HttpResponse(template.render(context),content_type = "text/xml")
+    
